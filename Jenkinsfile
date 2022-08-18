@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-        REGISTRY = '898130718046.dkr.ecr.us-east-1.amazonaws.com'
+        REGISTRY = '898130718046.dkr.ecr.ap-south-1.amazonaws.com'
         APPS = 'big-project-backend'
   }
     stages{
@@ -19,11 +19,11 @@ pipeline {
       stage('Deploy to Kubernetes') {
         steps {
           script {
-            if ( env.GIT_BRANCH == 'origin/staging' ) {
+            if ( env.GIT_BRANCH == 'staging' ) {
               sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
               sh "kubectl apply -f deployment.yaml -n staging"
             }
-            else if ( env.GIT_BRANCH == 'origin/main' ) {
+            else if ( env.GIT_BRANCH == 'main' ) {
               sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
               sh "kubectl apply -f deployment.yaml -n production"
             }
