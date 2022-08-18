@@ -35,7 +35,7 @@ spec:
         image: 898130718046.dkr.ecr.ap-south-1.amazonaws.com/big-project-backend:IMAGE_TAG
         resources:
           limits:
-            memory: 200Mi
+            memory: 500Mi
             cpu: 100m
           requests:
             memory: 80Mi
