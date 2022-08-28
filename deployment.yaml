@@ -43,17 +43,21 @@ spec:
         ports:
         - containerPort: 5000
         env:
-        - name: DB_USERNAME
+        - name: DATABASE_USERNAME
           valueFrom:
             secretKeyRef:
               name: mern-backend
               key: user
-        - name: DB_PASSWORD
+        - name: DATABASE_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mern-backend
               key: password
-        - name: DB_DATABASE
+        - name: DATABASE_DATABASE
           value: peopleproduction
-        - name: DB_HOST
+        - name: DATABASE_HOST
           value: database-1-ikhsan.cjy93ctary5j.ap-south-1.rds.amazonaws.com
+        - name: DATABASE_PORT
+          value: "3306"
+        - name: BASE_URL
+          value: "http://dev.ikhsan.devopscloud.tech"
