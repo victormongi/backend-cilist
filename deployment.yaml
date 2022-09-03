@@ -33,13 +33,6 @@ spec:
       containers:
       - name: mern-backend
         image: irwankilay/backend-prod:IMAGE_TAG
-        resources:
-          limits:
-            memory: 500Mi
-            cpu: 100m
-          requests:
-            memory: 80Mi
-            cpu: 50m
         ports:
         - containerPort: 5000
         env:
