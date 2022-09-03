@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: mern-backend
-        image: irwankilay/backend2:1
+        image: irwankilay/backend-prod:IMAGE_TAG
         resources:
           limits:
             memory: 500Mi
