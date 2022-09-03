@@ -4,7 +4,11 @@ pipeline {
      REGISTRY   = 'irwankilay' 
   }
     stages{
-      sh "scp -r /var/lib/jenkins/workspace/cilist-frontend ubuntu@122.248.223.243:/opt/docker"
+      stage('Pull codes and transfer to ansible') {
+        steps {
+          sh "scp -r /var/lib/jenkins/workspace/frontend ubuntu@122.248.223.243:/opt/docker"
+        }
+      }
     }
     post {
         always {
