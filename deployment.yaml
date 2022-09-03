@@ -47,7 +47,7 @@ spec:
               name: mern-backend
               key: password
         - name: DATABASE_DATABASE
-          value: peopleproduction
+          value: people
         - name: DATABASE_HOST
           value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: DATABASE_PORT
