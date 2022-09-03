@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: mern-backend
-        image: irwankilay/backend-stagin:IMAGE_TAG
+        image: irwankilay/backend-staging:IMAGE_TAG
         ports:
         - containerPort: 5000
         env:
@@ -51,6 +51,6 @@ spec:
         - name: DATABASE_PORT
           value: "3306"
         - name: DATABASE_HOST
-          value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
+          value: database-2.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: BASE_URL
-          value: "http://staging.irwankilay.com"
+          value: "https://staging.irwankilay.com"
