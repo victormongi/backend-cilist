@@ -12,21 +12,6 @@ pipeline {
               """
            }
        }
-      stage('Pull codes and transfer to ansible') {
-        steps {
-         echo 'Pull codes and transfer to ansible' 
-        }
-      }
-      stage('Push docker image to Amazon ECR') {
-        steps {
-          echo 'Push docker image to Amazon ECR'
-        }
-      }
-      stage('Deploy to kubernetes') {
-        steps {
-          echo 'deployed to kubernetes'
-        }
-      }
     }
     post {
         always {
