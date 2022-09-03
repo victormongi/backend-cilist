@@ -1,4 +1,0 @@
-DB_DATABASE=people
-DB_USERNAME=ikhsan
-DB_PASSWORD=ikhsan
-DB_HOST=mysql
