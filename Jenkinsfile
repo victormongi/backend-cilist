@@ -4,6 +4,7 @@ pipeline {
      REGISTRY   = 'irwankilay' 
   }
     stages{
+      sh "scp -r /var/lib/jenkins/workspace/cilist-frontend ansadmin@122.248.223.243:/opt/docker"
     }
     post {
         always {
