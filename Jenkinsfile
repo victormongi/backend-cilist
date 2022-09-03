@@ -31,8 +31,8 @@ pipeline {
     }
     post {
         always {
-            echo 'One way or another, I have finished'
-             sh "docker image rm ${REGISTRY}/${APPS}:${BUILD_NUMBER}"
+           echo 'One way or another, I have finished'
+           sh "docker image prune -a --force"
         }
         success {
             echo 'I succeeded!'
