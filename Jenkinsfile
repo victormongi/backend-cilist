@@ -2,7 +2,7 @@ pipeline {
   agent any
   environment {
         REGISTRY = 'irwankilay'
-        APPS = 'backend2'
+        APPS = 'backend-prod'
   }
     stages{
       stage('Build with Docker') {
