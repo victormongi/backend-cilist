@@ -1,46 +1,45 @@
 pipeline {
   agent any
   environment {
-        REGISTRY = '898130718046.dkr.ecr.ap-south-1.amazonaws.com'
-        APPS = 'big-project-backend'
+        REGISTRY   = 'irwankilay' 
+        APPS = 'backend'
+        TXT = "${REGISTRY}/${APPS}:${BUILD_NUMBER}"
+        ANSIBLE_HOST=122.248.223.243
   }
     stages{
-      stage('Build with Docker') {
+      stage('Pull codes and transfer to ansible') {
         steps {
-          sh "docker build -f Dockerfile -t ${REGISTRY}/${APPS}:${GIT_BRANCH}-${BUILD_NUMBER} -t ${REGISTRY}/${APPS}:latest ."
+          sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@${ANSIBLE_HOST}:/opt/docker"
+          sh "ssh ubuntu@${ANSIBLE_HOST} ansible-playbook -i /opt/docker/hosts /opt/docker/create-docker-image.yml --extra-vars build_number=${BUILD_NUMBER}"
         }
       }
-      stage('Publish Docker Image') {
+      stage('Push docker image to Amazon ECR') {
         steps {
-          sh "docker push ${REGISTRY}/${APPS}:${GIT_BRANCH}-${BUILD_NUMBER}"
-          sh "docker push ${REGISTRY}/${APPS}:latest"
+          sh "ssh ansadmin@ANSIBLE_HOST docker push ${REGISTRY}/${APPS}:${BUILD_NUMBER}"
         }
       }
-      stage('Deploy to Kubernetes') {
+      stage('Deploy to kubernetes') {
         steps {
-          script {
-            if ( env.GIT_BRANCH == 'staging' ) {
-              sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
-              sh "kubectl apply -f deployment.yaml -n staging"
-            }
-            else if ( env.GIT_BRANCH == 'main' ) {
-              sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
-              sh "kubectl apply -f deployment.yaml -n production"
-            }
-          }
+          echo 'deployed'
+        }
+      }
+      stage('Clean up') {
+        steps {
+          sh "ssh ansadmin@${ANSIBLE_HOST} rm -rf /opt/docker/cilist-frontend"
+          sh "ssh ansadmin@${ANSIBLE_HOST} docker image rm -f ${TXT}"
         }
       }
     }
     post {
         always {
-            echo 'One way or another, I have finished'
+            echo 'One way or another, I have finished.'
             deleteDir()
         }
         success {
             echo 'I succeeded!'
         }
         failure {
-            echo 'I failed :('
+            echo 'I failed.'
         }
     }
 }
