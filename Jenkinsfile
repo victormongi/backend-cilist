@@ -1,10 +1,7 @@
 pipeline {
   agent any
   environment {
-        REGISTRY   = 'irwankilay' 
-        APPS = 'backend'
-        TXT = "${REGISTRY}/${APPS}:${BUILD_NUMBER}"
-        ANSIBLE_HOST=122.248.223.243
+     REGISTRY   = 'irwankilay' 
   }
     stages{
        stage('Cleanup Workspace') {
@@ -17,8 +14,7 @@ pipeline {
        }
       stage('Pull codes and transfer to ansible') {
         steps {
-          sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@${ANSIBLE_HOST}:/opt/docker"
-          sh "ssh ubuntu@${ANSIBLE_HOST} ansible-playbook -i /opt/docker/hosts /opt/docker/create-docker-image.yml --extra-vars build_number=${BUILD_NUMBER}"
+         echo 'Pull codes and transfer to ansible' 
         }
       }
       stage('Push docker image to Amazon ECR') {
