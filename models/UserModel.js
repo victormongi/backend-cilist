@@ -13,6 +13,6 @@ const User = db.define('users',{
 
 export default User;
 
-//(async()=>{
-//    await db.sync();
-//})();
+(async()=>{
+    await db.sync();
+})();
