@@ -9,6 +9,14 @@ pipeline {
           sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@122.248.223.243:/opt/docker"
         }
       }
+      stage('Cleanup Workspace') {
+         steps {
+              cleanWs()
+              sh """
+              echo "Cleanup Workspace"
+              """
+            }
+        } 
     }
     post {
         always {
