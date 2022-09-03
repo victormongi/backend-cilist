@@ -1,33 +1,46 @@
 pipeline {
   agent any
   environment {
-     REGISTRY   = 'irwankilay' 
+        REGISTRY = 'irwankilay'
+        APPS = 'backend'
   }
     stages{
-      stage('Pull codes and transfer to ansible') {
+      stage('Build with Docker') {
         steps {
-          sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@122.248.223.243:/opt/docker"
+          sh "docker build -f Dockerfile -t ${REGISTRY}/${APPS}:${GIT_BRANCH}-${BUILD_NUMBER} -t ${REGISTRY}/${APPS}:latest ."
         }
       }
-      stage('Cleanup Workspace') {
-         steps {
-              cleanWs()
-              sh """
-              echo "Cleanup Workspace"
-              """
+      stage('Publish Docker Image') {
+        steps {
+          sh "docker push ${REGISTRY}/${APPS}:${GIT_BRANCH}-${BUILD_NUMBER}"
+          sh "docker push ${REGISTRY}/${APPS}:latest"
+        }
+      }
+      stage('Deploy to Kubernetes') {
+        steps {
+          script {
+            if ( env.GIT_BRANCH == 'staging' ) {
+              sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
+              sh "kubectl apply -f deployment.yaml -n staging"
             }
-        } 
+            else if ( env.GIT_BRANCH == 'main' ) {
+              sh "sed -i 's/IMAGE_TAG/${GIT_BRANCH}-${BUILD_NUMBER}/g' deployment.yaml"
+              sh "kubectl apply -f deployment.yaml -n production"
+            }
+          }
+        }
+      }
     }
     post {
         always {
-            echo 'One way or another, I have finished.'
+            echo 'One way or another, I have finished'
             deleteDir()
         }
         success {
             echo 'I succeeded!'
         }
         failure {
-            echo 'I failed.'
+            echo 'I failed :('
         }
     }
 }
