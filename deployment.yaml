@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mern-backend
+  namespace: production
   labels:
     app: mern
     tier: backend
@@ -18,6 +19,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mern-backend
+  namespace: production
 spec:
   selector:
     matchLabels:
@@ -33,6 +35,13 @@ spec:
       containers:
       - name: mern-backend
         image: irwankilay/backend-prod:IMAGE_TAG
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 100m
+          requests:
+            memory: 80Mi
+            cpu: 50m
         ports:
         - containerPort: 5000
         env:
@@ -48,9 +57,9 @@ spec:
               key: password
         - name: DATABASE_DATABASE
           value: people
-        - name: DATABASE_HOST
-          value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: DATABASE_PORT
           value: "3306"
+        - name: DATABASE_HOST
+          value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: BASE_URL
-          value: "https://"production.irwankilay.com"
+          value: "http://production.irwankilay.com"
