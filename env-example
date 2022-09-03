@@ -1,9 +1,0 @@
-# APP
-BASE_URL=http://localhost:5000
-
-# Database
-DATABASE_USERNAME=people
-DATABASE_PASSWORD=people
-DATABASE_DATABASE=people
-DATABASE_HOST=localhost
-DATABASE_PORT=3306
