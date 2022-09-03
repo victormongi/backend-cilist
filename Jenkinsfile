@@ -6,7 +6,7 @@ pipeline {
     stages{
       stage('Pull codes and transfer to ansible') {
         steps {
-          sh "scp -r /var/lib/jenkins/workspace/frontend ubuntu@122.248.223.243:/opt/docker"
+          sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@122.248.223.243:/opt/docker"
         }
       }
     }
