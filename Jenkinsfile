@@ -13,7 +13,6 @@ pipeline {
       stage('Publish Docker Image') {
         steps {
           sh "docker push ${REGISTRY}/${APPS}:${BUILD_NUMBER}"
-          sh "docker image rm ${REGISTRY}/${APPS}:${BUILD_NUMBER} "
         }
       }
       stage('Deploy to Kubernetes') {
