@@ -32,7 +32,14 @@ spec:
     spec:
       containers:
       - name: mern-backend
-        image: irwankilay/backend2:1
+        image: irwankilay/backend-staging:IMAGE_TAG
+        resources:
+          limits:
+            memory: 200Mi
+            cpu: 100m
+          requests:
+            memory: 80Mi
+            cpu: 50m
         ports:
         - containerPort: 5000
         env:
@@ -47,10 +54,10 @@ spec:
               name: mern-backend
               key: password
         - name: DATABASE_DATABASE
-          value: peopleproduction
-        - name: DATABASE_HOST
-          value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
+          value: people
         - name: DATABASE_PORT
           value: "3306"
+        - name: DATABASE_HOST
+          value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: BASE_URL
-          value: "https://"staging.irwankilay.com"
+          value: "http://staging.irwankilay.com"
