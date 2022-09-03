@@ -62,4 +62,4 @@ spec:
         - name: DATABASE_HOST
           value: database-1.c9rm2bsyvw8e.ap-southeast-1.rds.amazonaws.com
         - name: BASE_URL
-          value: "http://production.irwankilay.com"
+          value: "https://production.irwankilay.com"
