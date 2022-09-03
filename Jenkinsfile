@@ -7,6 +7,14 @@ pipeline {
         ANSIBLE_HOST=122.248.223.243
   }
     stages{
+       stage('Cleanup Workspace') {
+           steps {
+              cleanWs()
+              sh """
+              echo "Cleaned Up Workspace For Project"
+              """
+           }
+       }
       stage('Pull codes and transfer to ansible') {
         steps {
           sh "scp -r /var/lib/jenkins/workspace/backend ubuntu@${ANSIBLE_HOST}:/opt/docker"
@@ -15,18 +23,12 @@ pipeline {
       }
       stage('Push docker image to Amazon ECR') {
         steps {
-          sh "ssh ansadmin@ANSIBLE_HOST docker push ${REGISTRY}/${APPS}:${BUILD_NUMBER}"
+          echo 'Push docker image to Amazon ECR'
         }
       }
       stage('Deploy to kubernetes') {
         steps {
-          echo 'deployed'
-        }
-      }
-      stage('Clean up') {
-        steps {
-          sh "ssh ansadmin@${ANSIBLE_HOST} rm -rf /opt/docker/cilist-frontend"
-          sh "ssh ansadmin@${ANSIBLE_HOST} docker image rm -f ${TXT}"
+          echo 'deployed to kubernetes'
         }
       }
     }
